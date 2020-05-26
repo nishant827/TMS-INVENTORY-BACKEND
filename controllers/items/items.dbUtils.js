@@ -44,7 +44,7 @@ itemsDbUtils.getItemsList = (queryParams) => {
     return new Promise((resolve, reject) => {
         try {
             let itemsGetListQuery = `SELECT * FROM ${tables.ITEM_TABLE} LIMIT ${+queryParams.limit} OFFSET ${+queryParams.offset}`
-            console.log(`items get query : ${itemsGetListQuery}`);
+            // console.log(`items get query : ${itemsGetListQuery}`);
             mysqlController.queryToMySqlDB(itemsGetListQuery).then((result) => {
                 resolve(result);
             }, (error) => {
@@ -78,11 +78,12 @@ itemsDbUtils.getItemsList = (queryParams) => {
 function getSaveOneItemQuery(itemPayLoad) {
     let itemId = require("uuid").v1();
     return `INSERT INTO ${tables.ITEM_TABLE} 
-    (id, name, category_id, category_name, price, description, warranty, discount,
+    (id, name, category_id, category_name, price, description, warranty, discount, status,quantity,
     manufacturer_name, manufacturer_address, manufacturer_contactNo) 
     VALUES ('${itemId}','${itemPayLoad.name}','${itemPayLoad.category_id}','${itemPayLoad.category_name}',
     ${+itemPayLoad.price},'${itemPayLoad.description}',${+itemPayLoad.warranty},${+itemPayLoad.discount},
-    '${itemPayLoad.manufacturer_name}','${itemPayLoad.manufacturer_address}','${itemPayLoad.manufacturer_contactNo}')`;
+    ${+itemPayLoad.status},${+itemPayLoad.quantity},'${itemPayLoad.manufacturer_name}',
+    '${itemPayLoad.manufacturer_address}','${itemPayLoad.manufacturer_contactNo}')`;
 }
 
 function getItemTableCreationQuery() {
@@ -90,8 +91,9 @@ function getItemTableCreationQuery() {
     (
     id VARCHAR(50) NOT NULL, name VARCHAR(100) NOT NULL,category_id VARCHAR(5) NOT NULL,
     category_name VARCHAR(45) NOT NULL, price INT NOT NULL, description VARCHAR(200) NULL,
-    warranty INT NOT NULL DEFAULT 0, discount INT NOT NULL DEFAULT 0,
-    manufacturer_name VARCHAR(65) NULL, manufacturer_address VARCHAR(200) NULL, manufacturer_contactNo VARCHAR(10) NULL,
+    warranty INT NOT NULL DEFAULT 0, discount INT NOT NULL DEFAULT 0,status INT NOT NULL DEFAULT 1,
+    quantity INT NOT NULL DEFAULT 1,manufacturer_name VARCHAR(65) NULL, manufacturer_address VARCHAR(200) NULL, 
+    manufacturer_contactNo VARCHAR(10) NULL,
     PRIMARY KEY (id)
     )`;
 }

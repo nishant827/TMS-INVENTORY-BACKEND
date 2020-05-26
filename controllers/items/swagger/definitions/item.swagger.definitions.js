@@ -7,6 +7,8 @@ module.exports = {
         "description",
         "warranty",
         "discount",
+        "status",
+        "quantity",
         "manufacturer_name",
         "manufacturer_address",
         "manufacturer_contactNo"
@@ -43,6 +45,18 @@ module.exports = {
         "discount":{
             "type": "number",
             "example": 25,
+            "format": "int64",
+            "uniqueItems": false
+        },
+        "status":{
+            "type": "number",
+            "example": 1,
+            "format": "int64",
+            "uniqueItems": false
+        },
+        "quantity":{
+            "type": "number",
+            "example": 1,
             "format": "int64",
             "uniqueItems": false
         },
